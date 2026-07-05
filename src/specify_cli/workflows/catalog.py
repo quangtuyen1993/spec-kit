@@ -137,7 +137,8 @@ class WorkflowCatalog:
     """
 
     DEFAULT_CATALOG_URL = (
-        "https://raw.githubusercontent.com/quangtuyen1993/spec-kit/main/"
+        "https://raw.githubusercontent.com/quangtuyen1993/spec-kit/"
+        "b3bd76a68ead07e89af04d71fe54a55757e47815/"
         "workflows/catalog.json"
     )
     COMMUNITY_CATALOG_URL = (
