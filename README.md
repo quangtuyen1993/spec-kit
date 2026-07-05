@@ -165,6 +165,49 @@ Essential commands for the Spec-Driven Development workflow:
 | `/speckit.tasks`         | `speckit-tasks`        | Generate actionable task lists for implementation                          |
 | `/speckit.taskstoissues` | `speckit-taskstoissues`| Convert generated task lists into GitHub issues for tracking and execution |
 | `/speckit.implement`     | `speckit-implement`    | Execute all tasks to build the feature according to the plan               |
+
+### Production project and task lifecycles (fork extension)
+
+This fork includes the bundled `project-tooling` extension. Install it after project
+initialization:
+
+```bash
+specify extension add project-tooling
+```
+
+Project lifecycle commands are intentionally separate from feature delivery:
+
+```text
+speckit.project-tooling.audit
+→ speckit.project-tooling.confirm
+→ speckit.project-tooling.update (explicit approval only)
+→ verified project baseline
+```
+
+The audit scanner supports brownfield repositories and records declared, imported, executed,
+installed, required, conflicting, and unknown tool states with evidence. Feature commands may read
+the confirmed project snapshot, but they cannot install or upgrade tools.
+
+Feature/task lifecycle remains:
+
+```text
+specify → clarify → plan → tasks → analyze → implement → verify → converge
+```
+
+Independent verification uses `speckit.project-tooling.verify-task` and
+`speckit.project-tooling.verify-feature`. The verifier is
+read-only, uses the model class configured by project policy (recommended: the integration's
+maximum-capability model), and cannot silently downgrade, edit tests, weaken faithful environments,
+or call a partial suite complete.
+
+Install and run the bundled production workflow after installing the extension:
+
+```bash
+specify workflow add production-sdd
+specify workflow run production-sdd \
+  -i spec="Build the feature" \
+  -i verifier_model="<integration-max-model-id>"
+```
 | `/speckit.converge`      | `speckit-converge`     | Assess the codebase against spec/plan/tasks and append remaining work as new tasks |
 
 ### Optional Commands

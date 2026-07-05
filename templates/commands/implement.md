@@ -162,13 +162,19 @@ You **MUST** consider the user input before proceeding (if not empty).
    - For parallel tasks [P], continue with successful tasks, report failed ones
    - Provide clear error messages with context for debugging
    - Suggest next steps if implementation cannot proceed
-   - **IMPORTANT** For completed tasks, make sure to mark the task off as [X] in the tasks file.
+   - **IMPORTANT** When implementation work is done, update the Task State Ledger to
+     `implemented` + `verification_pending`, but leave the task checkbox unchecked.
+   - Implementation is not independent verification. Never mark `[X]`, `verified`, or complete from
+     implementer self-checks.
+   - Hand each implemented task to `speckit.project-tooling.verify-task` when that extension is
+     installed; otherwise report verification pending and stop before completion claims.
 
-9. Completion validation:
-   - Verify all required tasks are completed
+9. Implementation-pass validation:
+   - Verify all required tasks reached `implemented` or report their blocker
    - Check that implemented features match the original specification
    - Validate that tests pass and coverage meets requirements
    - Confirm the implementation follows the technical plan
+   - Report task implementation complete only as `verification_pending`
 
 Note: This command assumes a complete task breakdown exists in tasks.md. If tasks are incomplete or missing, suggest running `__SPECKIT_COMMAND_TASKS__` first to regenerate the task list.
 
@@ -208,11 +214,12 @@ Check if `.specify/extensions.yml` exists in the project root.
 
 ## Completion Report
 
-Report final status with summary of completed work.
+Report final implementation status, pending independent verification, failures, and blockers.
 
 ## Done When
 
-- [ ] All tasks in tasks.md completed and marked `[X]`
-- [ ] Implementation validated against specification, plan, and test coverage
+- [ ] All selected tasks in tasks.md reached `implemented` + `verification_pending`
+- [ ] No task was marked `[X]` or `verified` by the implementer
+- [ ] Independent verifier handoff is identified for every implemented task
 - [ ] Extension hooks dispatched or skipped according to the rules in Mandatory Post-Execution Hooks above
 - [ ] Completion reported to user with summary of completed work

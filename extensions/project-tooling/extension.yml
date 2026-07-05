@@ -1,0 +1,38 @@
+schema_version: "1.0"
+
+extension:
+  id: project-tooling
+  name: "Project Tooling and Independent Verification"
+  version: "1.0.0"
+  description: "Separates project toolchain governance from feature delivery and adds approval-gated tooling plus independent task verification"
+  author: quangtuyen1993
+  repository: https://github.com/quangtuyen1993/spec-kit
+  license: MIT
+
+requires:
+  speckit_version: ">=0.11.0"
+
+provides:
+  commands:
+    - name: speckit.project-tooling.audit
+      file: commands/speckit.tooling.audit.md
+      description: "Deterministically inventory tools, manifests, CI usage, devices, containers, MCP, and skills"
+    - name: speckit.project-tooling.confirm
+      file: commands/speckit.tooling.confirm.md
+      description: "Review the inventory with a human and create the project tooling policy"
+    - name: speckit.project-tooling.update
+      file: commands/speckit.tooling.update.md
+      description: "Prepare and run only explicitly approved tool updates, then verify the baseline"
+    - name: speckit.project-tooling.verify-task
+      file: commands/speckit.verify.task.md
+      description: "Independently verify one implemented task using the configured verifier model policy"
+    - name: speckit.project-tooling.verify-feature
+      file: commands/speckit.verify.feature.md
+      description: "Independently verify all requirements and quality gates for a feature"
+
+tags:
+  - "tooling"
+  - "project-lifecycle"
+  - "verification"
+  - "quality"
+  - "brownfield"

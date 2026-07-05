@@ -36,6 +36,25 @@
 
 **Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
 
+## Project Baseline and Agent Tooling
+
+<!--
+  Read .specify/project/tooling-inventory.json and tooling-policy.json when present. This section
+  consumes the project lifecycle snapshot; feature planning MUST NOT install or update tools.
+-->
+
+**Tooling snapshot**: [path, generated timestamp, environment fingerprint, or BLOCKED]
+
+**Required tools/skills**: [exact names, versions, availability, and evidence]
+
+**Required environments**: [containers, simulators/devices, sandboxes, deployment targets]
+
+**Canonical verification commands**: [exact commands and working directories]
+
+**Verifier policy**: [model class, independent context, read-only scope, full-suite requirements]
+
+**Fallback/blocking policy**: [handoff to project lifecycle when tooling is missing/incompatible]
+
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*

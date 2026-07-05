@@ -2003,7 +2003,7 @@ class ExtensionCatalog(CatalogStackBase):
     """Manages extension catalog fetching, caching, and searching."""
 
     DEFAULT_CATALOG_URL = (
-        "https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.json"
+        "https://raw.githubusercontent.com/quangtuyen1993/spec-kit/main/extensions/catalog.json"
     )
     COMMUNITY_CATALOG_URL = "https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.community.json"
     CACHE_DURATION = 3600  # 1 hour in seconds

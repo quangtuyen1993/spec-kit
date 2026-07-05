@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "updated_at": "2026-06-05T00:00:00Z",
-  "catalog_url": "https://raw.githubusercontent.com/github/spec-kit/main/extensions/catalog.json",
+  "catalog_url": "https://raw.githubusercontent.com/quangtuyen1993/spec-kit/main/extensions/catalog.json",
   "extensions": {
     "agent-context": {
       "name": "Coding Agent Context",
@@ -45,6 +45,22 @@
         "branching",
         "workflow",
         "core"
+      ]
+    },
+    "project-tooling": {
+      "name": "Project Tooling and Independent Verification",
+      "id": "project-tooling",
+      "version": "1.0.0",
+      "description": "Separates project toolchain governance from feature delivery and adds approval-gated tooling plus independent task verification",
+      "author": "quangtuyen1993",
+      "repository": "https://github.com/quangtuyen1993/spec-kit",
+      "bundled": true,
+      "tags": [
+        "tooling",
+        "project-lifecycle",
+        "verification",
+        "quality",
+        "brownfield"
       ]
     }
   }

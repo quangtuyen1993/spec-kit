@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "updated_at": "2026-04-13T00:00:00Z",
-  "catalog_url": "https://raw.githubusercontent.com/github/spec-kit/main/workflows/catalog.json",
+  "catalog_url": "https://raw.githubusercontent.com/quangtuyen1993/spec-kit/main/workflows/catalog.json",
   "workflows": {
     "speckit": {
       "id": "speckit",
@@ -11,6 +11,15 @@
       "version": "1.0.0",
       "url": "https://raw.githubusercontent.com/github/spec-kit/main/workflows/speckit/workflow.yml",
       "tags": ["sdd", "full-cycle"]
+    },
+    "production-sdd": {
+      "id": "production-sdd",
+      "name": "Production SDD with Tooling and Independent Verification",
+      "description": "Separates project tooling governance from feature delivery and verifies with an independent maximum-capability model",
+      "author": "quangtuyen1993",
+      "version": "1.0.0",
+      "url": "https://raw.githubusercontent.com/quangtuyen1993/spec-kit/main/workflows/production-sdd/workflow.yml",
+      "tags": ["sdd", "production", "tooling", "verification"]
     }
   }
 }

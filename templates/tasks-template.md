@@ -9,7 +9,8 @@ description: "Task list template for feature implementation"
 
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: Include every test and faithful environment required by the specification, plan,
+constitution, and verifier policy. A task cannot be completed by a weaker substitute.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
@@ -18,6 +19,23 @@ description: "Task list template for feature implementation"
 - **[P]**: Can run in parallel (different files, no dependencies)
 - **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
 - Include exact file paths in descriptions
+
+## Task State Ledger
+
+The checklist marks independent verification, not implementation alone. Keep one ledger row per
+task and update it without deleting history.
+
+| Task | Implementation | Verification | Verifier model | Evidence |
+|---|---|---|---|---|
+| T001 | pending | not_verified | — | — |
+
+Allowed implementation states: `pending`, `in_progress`, `implemented`, `blocked`.
+
+Allowed verification states: `not_verified`, `verification_pending`, `verified`, `rejected`,
+`blocked`.
+
+The implementer moves a task to `implemented` + `verification_pending` but MUST leave `- [ ]`
+unchecked. Only an independent verifier may set `verified` and change the task to `- [x]`.
 
 ## Path Conventions
 
@@ -247,6 +265,7 @@ With multiple developers:
 - [Story] label maps task to specific user story for traceability
 - Each user story should be independently completable and testable
 - Verify tests fail before implementing
-- Commit after each task or logical group
+- Commit after each verified task or logical group
+- Never check a task complete from implementer self-report or a partial test suite
 - Stop at any checkpoint to validate story independently
 - Avoid: vague tasks, same file conflicts, cross-story dependencies that break independence

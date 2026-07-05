@@ -1,0 +1,127 @@
+schema_version: "1.0"
+workflow:
+  id: "production-sdd"
+  name: "Production SDD with Tooling and Independent Verification"
+  version: "1.0.0"
+  author: "quangtuyen1993"
+  description: "Separates project tooling governance from feature delivery and verifies with an independent maximum-capability model"
+
+requires:
+  speckit_version: ">=0.11.0"
+  integrations:
+    any: ["codex", "claude", "copilot", "gemini", "opencode"]
+
+inputs:
+  spec:
+    type: string
+    required: true
+    prompt: "Describe what you want to build"
+  integration:
+    type: string
+    default: "auto"
+    prompt: "Integration to use"
+  implementation_model:
+    type: string
+    default: ""
+    prompt: "Implementation model override (empty uses integration default)"
+  verifier_model:
+    type: string
+    default: "max"
+    prompt: "Independent verifier model; use the integration's maximum-capability model identifier"
+  run_tooling_update:
+    type: string
+    default: "no"
+    enum: ["yes", "no"]
+
+steps:
+  # Project lifecycle: read-only inventory first.
+  - id: tooling-audit
+    command: speckit.project-tooling.audit
+    integration: "{{ inputs.integration }}"
+
+  - id: confirm-inventory
+    type: gate
+    message: "Review the tooling inventory. Confirm it before policy or update work."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: tooling-confirm
+    command: speckit.project-tooling.confirm
+    integration: "{{ inputs.integration }}"
+
+  - id: optional-tooling-update
+    type: if
+    condition: "{{ inputs.run_tooling_update == 'yes' }}"
+    then:
+      - id: tooling-update
+        command: speckit.project-tooling.update
+        integration: "{{ inputs.integration }}"
+
+  - id: project-baseline-gate
+    type: gate
+    message: "Confirm project tooling and constitution baseline are verified before feature delivery."
+    options: [approve, reject]
+    on_reject: abort
+
+  # Feature/task lifecycle: cannot mutate project tooling.
+  - id: specify
+    command: speckit.specify
+    integration: "{{ inputs.integration }}"
+    model: "{{ inputs.implementation_model }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: review-spec
+    type: gate
+    message: "Review and clarify the feature specification before planning."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: plan
+    command: speckit.plan
+    integration: "{{ inputs.integration }}"
+    model: "{{ inputs.implementation_model }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: review-plan
+    type: gate
+    message: "Review architecture, tooling snapshot, faithful environments, and quality gates."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: tasks
+    command: speckit.tasks
+    integration: "{{ inputs.integration }}"
+    model: "{{ inputs.implementation_model }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  - id: analyze
+    command: speckit.analyze
+    integration: "{{ inputs.integration }}"
+    model: "{{ inputs.implementation_model }}"
+
+  - id: implement
+    command: speckit.implement
+    integration: "{{ inputs.integration }}"
+    model: "{{ inputs.implementation_model }}"
+    input:
+      args: "{{ inputs.spec }}"
+
+  # Verification lifecycle: independent model and read-only command contract.
+  - id: verify-feature
+    command: speckit.project-tooling.verify-feature
+    integration: "{{ inputs.integration }}"
+    model: "{{ inputs.verifier_model }}"
+
+  - id: verification-gate
+    type: gate
+    message: "Approve only if the independent verifier verdict is verified; reject returns work to implementation."
+    options: [approve, reject]
+    on_reject: abort
+
+  - id: converge
+    command: speckit.converge
+    integration: "{{ inputs.integration }}"
+    model: "{{ inputs.verifier_model }}"

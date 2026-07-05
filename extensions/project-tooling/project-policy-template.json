@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "tools": {},
+  "skills": [],
+  "environments": [],
+  "verification": {
+    "model_class": "max",
+    "independent_context": true,
+    "production_edits_allowed": false,
+    "test_edits_allowed": false,
+    "configuration_edits_allowed": false,
+    "require_full_suite": true,
+    "require_adversarial_review": true,
+    "downgrade_allowed": false
+  }
+}
